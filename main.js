@@ -119,6 +119,11 @@ app.use(helmet.noSniff()); // Prevent MIME-type sniffing
 
 app.use(express.json());
 app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
+app.use(
   session({
     secret: Buffer.from(process.env.SESSION_SECRET, "base64").toString("utf-8"),
     resave: true,
@@ -141,11 +146,7 @@ app.use((req, res, next) => {
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(
-  express.urlencoded({
-    extended: true,
-  })
-);
+
 
 Handlebars.registerHelper("json", function (context) {
   return JSON.stringify(context);
